@@ -5,31 +5,27 @@ on:
   push:
     branches: [ main ]
 
-# Read MACHINE_SWITCH from GitHub Variables
-env:
-  MACHINE_SWITCH: ${{ vars.MACHINE_SWITCH }}
-
 jobs:
   shared-runner:
     name: Run on GitHub-hosted runner
-    if: env.MACHINE_SWITCH == 'FALSE'
+    if: vars.MACHINE_SWITCH == 'FALSE'
     runs-on: ubuntu-latest
 
     steps:
       - name: Show runner info
         run: |
           echo "Running on GitHub-hosted runner"
-          echo "MACHINE_SWITCH=$MACHINE_SWITCH"
+          echo "MACHINE_SWITCH=${{ vars.MACHINE_SWITCH }}"
           uname -a
 
   self-hosted-runner:
     name: Run on Self-hosted runner
-    if: env.MACHINE_SWITCH == 'TRUE'
+    if: vars.MACHINE_SWITCH == 'TRUE'
     runs-on: self-hosted
 
     steps:
       - name: Show runner info
         run: |
           echo "Running on Self-hosted runner"
-          echo "MACHINE_SWITCH=$MACHINE_SWITCH"
+          echo "MACHINE_SWITCH=${{ vars.MACHINE_SWITCH }}"
           hostname
